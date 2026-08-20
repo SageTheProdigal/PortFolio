@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kamsi Tech — Network &amp; Support Engineering, IT Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1420;
+    --bg-panel: #101C2C;
+    --bg-panel-2: #0D1826;
+    --line: #223245;
+    --text: #E9EFF6;
+    --muted: #8FA0B6;
+    --muted-dim: #5D6E82;
+    --cyan: #4FD1C5;
+    --amber: #F2A65A;
+    --green: #5CD68A;
+    --red: #E96B6B;
+    --radius: 10px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.02em;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--cyan); color:#04201d;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  section{position:relative;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(11,20,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:700; font-size:1.05rem;}
+  .brand .dot{width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green);}
+  .navlinks{display:flex; gap:30px; font-size:0.86rem; color:var(--muted); font-family:'IBM Plex Mono';}
+  .navlinks a{transition:color .2s;}
+  .navlinks a:hover{color:var(--cyan);}
+  .navcta{
+    font-family:'IBM Plex Mono'; font-size:0.8rem; padding:9px 16px;
+    border:1px solid var(--cyan); border-radius:6px; color:var(--cyan);
+    transition:all .2s;
+  }
+  .navcta:hover{background:var(--cyan); color:#04201d;}
+  .navtoggle{display:none; background:none; border:none; color:var(--text); font-size:1.4rem; cursor:pointer;}
+
+  @media(max-width:860px){
+    .navlinks{display:none;}
+    .navcta{display:none;}
+    .navtoggle{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:100px 0 60px; position:relative;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono'; font-size:0.78rem; color:var(--amber);
+    letter-spacing:0.06em; text-transform:uppercase; margin-bottom:28px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--amber);}
+  .hero h1{font-size:clamp(2.6rem, 6.5vw, 4.6rem); line-height:1.03; max-width:820px;}
+  .hero h1 .accent{color:var(--cyan);}
+  .hero-sub{
+    margin-top:26px; max-width:560px; color:var(--muted); font-size:1.08rem;
+  }
+  .hero-role{font-family:'IBM Plex Mono'; color:var(--text); font-size:0.95rem; margin-top:18px;}
+  .hero-role span{color:var(--muted-dim); padding:0 8px;}
+
+  .hero-cta{display:flex; gap:14px; margin-top:38px; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono'; font-size:0.86rem; padding:14px 24px;
+    border-radius:8px; display:inline-flex; align-items:center; gap:10px;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary{background:var(--cyan); color:#04201d; font-weight:500;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(79,209,197,0.25);}
+  .btn-ghost{border:1px solid var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--amber); color:var(--amber); transform:translateY(-2px);}
+
+  /* live log ticker — signature element */
+  .ledger{
+    margin-top:64px; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--bg-panel); overflow:hidden;
+  }
+  .ledger-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 18px; border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono'; font-size:0.76rem; color:var(--muted-dim);
+  }
+  .ledger-head .status{color:var(--green);}
+  .ledger-body{padding:6px 0; max-height:168px; overflow:hidden;}
+  .ledger-row{
+    display:grid; grid-template-columns:90px 90px 1fr; gap:14px;
+    padding:9px 18px; font-family:'IBM Plex Mono'; font-size:0.78rem;
+    color:var(--muted); border-bottom:1px solid rgba(255,255,255,0.03);
+  }
+  .ledger-row .t{color:var(--muted-dim);}
+  .ledger-row .tag{color:var(--amber);}
+  .ledger-row.ok .tag{color:var(--cyan);}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-pad{padding:96px 0;}
+  .sec-head{margin-bottom:52px; max-width:640px;}
+  .sec-eyebrow{
+    font-family:'IBM Plex Mono'; font-size:0.78rem; color:var(--cyan);
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:14px; display:block;
+  }
+  .sec-head h2{font-size:clamp(1.9rem, 4vw, 2.7rem);}
+  .sec-head p{color:var(--muted); margin-top:16px; font-size:1.02rem;}
+
+  /* ---------- ABOUT ---------- */
+  .about{background:var(--bg-panel-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .about-grid{display:grid; grid-template-columns:1fr 1.15fr; gap:64px; align-items:start;}
+  .about-grid p{color:var(--muted); font-size:1.04rem; margin-bottom:18px;}
+  .about-grid strong{color:var(--text); font-weight:600;}
+  .facts{display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:32px; padding-top:28px; border-top:1px solid var(--line);}
+  .facts .label{font-family:'IBM Plex Mono'; font-size:0.74rem; color:var(--amber); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;}
+  .facts .val{font-size:0.98rem;}
+  .facts .sub{color:var(--muted); font-size:0.88rem; margin-top:3px;}
+  .beyond{
+    margin-top:26px; padding:20px; border:1px solid var(--line); border-radius:var(--radius);
+    background:rgba(79,209,197,0.05);
+  }
+  .beyond .label{font-family:'IBM Plex Mono'; font-size:0.76rem; color:var(--cyan); margin-bottom:8px;}
+  .beyond p{color:var(--muted); font-size:0.94rem; margin:0;}
+
+  @media(max-width:860px){ .about-grid{grid-template-columns:1fr;} .facts{grid-template-columns:1fr;} }
+
+  /* ---------- CAPABILITY ---------- */
+  .cap-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .cap-card{background:var(--bg-panel); padding:28px 26px;}
+  .cap-card h4{font-size:1.02rem; margin-bottom:14px; display:flex; align-items:center; gap:10px;}
+  .cap-card h4 .idx{font-family:'IBM Plex Mono'; font-size:0.72rem; color:var(--muted-dim);}
+  .cap-card ul{list-style:none;}
+  .cap-card li{
+    font-size:0.9rem; color:var(--muted); padding:7px 0; border-top:1px solid rgba(255,255,255,0.04);
+  }
+  .cap-card li:first-child{border-top:none;}
+  @media(max-width:860px){ .cap-grid{grid-template-columns:1fr;} }
+
+  .certs{
+    margin-top:1px; border:1px solid var(--line); border-radius:var(--radius); background:var(--bg-panel);
+    padding:22px 26px; display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:26px;
+  }
+  .certs .label{font-family:'IBM Plex Mono'; font-size:0.76rem; color:var(--muted-dim); text-transform:uppercase; letter-spacing:0.05em;}
+  .cert-pill{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:20px;
+    border:1px solid var(--line); font-family:'IBM Plex Mono'; font-size:0.82rem;
+  }
+  .cert-pill .cdot{width:7px; height:7px; border-radius:50%;}
+  .cert-pill.done .cdot{background:var(--green);}
+  .cert-pill.progress .cdot{background:var(--amber);}
+
+  /* ---------- FIELD LOG ---------- */
+  .fieldlog{background:var(--bg-panel-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .fl-role{
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:8px;
+  }
+  .fl-role h3{font-size:1.5rem;}
+  .fl-role .co{
+    font-family:'IBM Plex Mono'; font-size:0.8rem; color:var(--amber); padding:4px 10px;
+    border:1px solid var(--line); border-radius:20px;
+  }
+  .fl-desc{color:var(--muted); max-width:600px; margin-bottom:36px;}
+  .timeline{border-left:1px solid var(--line); margin-left:8px;}
+  .tl-item{padding:0 0 26px 28px; position:relative;}
+  .tl-item::before{
+    content:''; position:absolute; left:-5px; top:5px; width:9px; height:9px; border-radius:50%;
+    background:var(--cyan); box-shadow:0 0 0 4px rgba(79,209,197,0.15);
+  }
+  .tl-item .site{font-size:1rem; font-weight:600; font-family:'Space Grotesk';}
+  .tl-item .note{color:var(--muted); font-size:0.88rem; margin-top:3px;}
+
+  /* ---------- SERVICES ---------- */
+  .svc-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap;}
+  .svc-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:48px;}
+  .svc-card{
+    border:1px solid var(--line); border-radius:var(--radius); padding:26px;
+    background:var(--bg-panel); display:flex; flex-direction:column; transition:border-color .2s, transform .2s;
+  }
+  .svc-card:hover{border-color:var(--amber); transform:translateY(-3px);}
+  .svc-card .n{font-family:'IBM Plex Mono'; color:var(--muted-dim); font-size:0.78rem; margin-bottom:16px;}
+  .svc-card h4{font-size:1.05rem; margin-bottom:10px;}
+  .svc-card p{color:var(--muted); font-size:0.9rem; flex:1; margin-bottom:20px;}
+  .svc-link{font-family:'IBM Plex Mono'; font-size:0.8rem; color:var(--cyan); display:inline-flex; align-items:center; gap:6px;}
+  @media(max-width:860px){ .svc-grid{grid-template-columns:1fr;} }
+
+  /* ---------- WORK ---------- */
+  .work-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+  .work-card{
+    border:1px solid var(--line); border-radius:var(--radius); padding:26px; background:var(--bg-panel-2);
+    display:flex; flex-direction:column; min-height:230px;
+  }
+  .work-card .tag{font-family:'IBM Plex Mono'; font-size:0.74rem; color:var(--amber); text-transform:uppercase; margin-bottom:16px;}
+  .work-card h4{font-size:1.08rem; margin-bottom:12px; line-height:1.3;}
+  .work-card p{color:var(--muted); font-size:0.88rem; flex:1;}
+  .work-card.open{border-style:dashed; justify-content:center; align-items:flex-start;}
+  @media(max-width:860px){ .work-grid{grid-template-columns:1fr;} }
+
+  /* ---------- CONTACT ---------- */
+  .contact{background:var(--bg-panel-2); border-top:1px solid var(--line);}
+  .contact-grid{display:grid; grid-template-columns:1fr 1.2fr; gap:60px;}
+  .contact h2{font-size:clamp(2rem,4vw,2.6rem); margin-bottom:20px;}
+  .contact-desc{color:var(--muted); max-width:420px; margin-bottom:32px;}
+  .reach{margin-top:28px; display:flex; flex-direction:column; gap:14px;}
+  .reach a, .reach span{font-family:'IBM Plex Mono'; font-size:0.92rem; color:var(--muted);}
+  .edit-flag{color:var(--red); font-size:0.72rem; margin-left:8px; font-family:'IBM Plex Mono';}
+  .note-box{
+    margin-top:30px; border:1px solid rgba(233,107,107,0.35); background:rgba(233,107,107,0.06);
+    border-radius:var(--radius); padding:16px 18px;
+  }
+  .note-box .t{font-family:'IBM Plex Mono'; font-size:0.76rem; color:var(--red); margin-bottom:6px; text-transform:uppercase;}
+  .note-box p{color:var(--muted); font-size:0.86rem;}
+
+  .form-panel{border:1px solid var(--line); border-radius:var(--radius); background:var(--bg-panel); padding:32px;}
+  .field{margin-bottom:22px;}
+  .field label{display:block; font-family:'IBM Plex Mono'; font-size:0.74rem; color:var(--muted-dim); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:9px;}
+  .field select, .field input, .field textarea{
+    width:100%; background:var(--bg-panel-2); border:1px solid var(--line); border-radius:6px;
+    padding:12px 14px; color:var(--text); font-family:'Inter'; font-size:0.94rem;
+  }
+  .field select:focus, .field input:focus, .field textarea:focus{outline:none; border-color:var(--cyan);}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .field textarea{resize:vertical; min-height:100px;}
+  .form-submit{width:100%; justify-content:center; margin-top:6px;}
+  .form-note{font-size:0.78rem; color:var(--muted-dim); margin-top:12px; font-family:'IBM Plex Mono';}
+  @media(max-width:860px){ .contact-grid{grid-template-columns:1fr;} .row2{grid-template-columns:1fr;} }
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:34px 0; border-top:1px solid var(--line);}
+  .foot-wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  .foot-wrap .brand{font-size:0.92rem;}
+  .foot-meta{color:var(--muted-dim); font-family:'IBM Plex Mono'; font-size:0.78rem;}
+  .back-top{font-family:'IBM Plex Mono'; font-size:0.78rem; color:var(--muted); border:1px solid var(--line); padding:8px 14px; border-radius:20px;}
+
+  /* reveal on scroll */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><span class="dot"></span>KAMSI.TECH</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#capability">Capability</a>
+      <a href="#fieldlog">Field Log</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+    </div>
+    <a href="#contact" class="navcta">Open a Channel</a>
+    <button class="navtoggle">≡</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Lagos, Nigeria · Available for work &amp; clients</div>
+    <h1>Networks that stay up.<br>Systems people <span class="accent">actually trust.</span></h1>
+    <div class="hero-role">Network &amp; Support Engineer <span>/</span> IT Consultant <span>/</span> Builder</div>
+    <p class="hero-sub">I keep infrastructure calm and legible — from the fiber patch panel to the ticket queue to the storefront your customers check out on. Hands-on, documented, no drama.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary">See the work →</a>
+      <a href="#services" class="btn btn-ghost">Hire me / get a quote</a>
+    </div>
+
+    <div class="ledger reveal">
+      <div class="ledger-head">
+        <span>live_log.tail — kamsi.tech</span>
+        <span class="status">● all systems normal</span>
+      </div>
+      <div class="ledger-body">
+        <div class="ledger-row ok"><span class="t">08:14:02</span><span class="tag">FIELD</span><span>OTDR trace clean — fiber run re-certified, Digital Realty DC Lagos.</span></div>
+        <div class="ledger-row"><span class="t">11:32:47</span><span class="tag">SEC</span><span>Arbor Sightline weekly DDoS report compiled and sent.</span></div>
+        <div class="ledger-row ok"><span class="t">14:05:19</span><span class="tag">DESK</span><span>Zoho ticket closed — hardware swap, HPE server, on first pass.</span></div>
+        <div class="ledger-row"><span class="t">16:48:03</span><span class="tag">BUILD</span><span>Client domain + Google Workspace mail live, zero downtime handover.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about sec-pad" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <span class="sec-eyebrow">About</span>
+        <h2>The engineer behind the ticket.</h2>
+      </div>
+      <div>
+        <p>I'm <strong>Kacey</strong> — online as <strong>Sage</strong> — a Network &amp; Support Engineer and IT consultant based in Lagos. My work spans fiber and enterprise networks, on-site data center support, small-business IT, and the software layer that ties it together.</p>
+        <p>I'm most useful in the gap between "the diagram says it should work" and "the client says it doesn't" — tracing the fault, fixing it cleanly, and leaving behind documentation the next person can actually use.</p>
+        <div class="facts">
+          <div>
+            <div class="label">Education</div>
+            <div class="val">B.Sc. Computer Science</div>
+            <div class="sub">Bingham University · Dec 2024 · GPA 3.6</div>
+          </div>
+          <div>
+            <div class="label">Based</div>
+            <div class="val">Lagos, Nigeria</div>
+            <div class="sub">Working across Lagos-area data centers &amp; remote clients</div>
+          </div>
+        </div>
+        <div class="beyond">
+          <div class="label">Beyond the terminal</div>
+          <p>Off the clock I'm usually deep in fitness — I put together training sessions, meal preps, and workout routines for myself and people around me. No certification, just genuine discipline.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-pad" id="capability">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">Capability</span>
+      <h2>What I actually run.</h2>
+      <p>The tools and platforms behind every ticket, build, and client handover — not a buzzword list.</p>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-card">
+        <h4><span class="idx">01</span> Field &amp; Hardware</h4>
+        <ul>
+          <li>Fiber splicing &amp; OTDR testing</li>
+          <li>Server racking — HPE / Dell</li>
+          <li>PC building</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h4><span class="idx">02</span> Networking</h4>
+        <ul>
+          <li>Cisco ASR9K</li>
+          <li>Ciena WaveServer</li>
+          <li>LAN design &amp; management</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h4><span class="idx">03</span> Security</h4>
+        <ul>
+          <li>Fortinet, Cisco, F5 firewalls</li>
+          <li>Arbor DDoS platforms</li>
+          <li>Arbor Sightline reporting</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h4><span class="idx">04</span> IT Consulting &amp; Support</h4>
+        <ul>
+          <li>Consultations &amp; scoping</li>
+          <li>Hardware / software troubleshooting</li>
+          <li>Digital solutions sales &amp; procurement</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h4><span class="idx">05</span> Web &amp; Software</h4>
+        <ul>
+          <li>Python — NLTK, spaCy, TextBlob</li>
+          <li>AI-assisted ("vibe") coding</li>
+          <li>Domain &amp; website management</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h4><span class="idx">06</span> Tools &amp; Platforms</h4>
+        <ul>
+          <li>Zoho · Google Workspace · MS Office</li>
+          <li>Linux &amp; Windows</li>
+          <li>Shopify · Bumpa · Selar</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="certs">
+      <span class="label">Credentials</span>
+      <span class="cert-pill done"><span class="cdot"></span>DTCSM — completed</span>
+      <span class="cert-pill progress"><span class="cdot"></span>CCNA — in progress</span>
+      <span class="cert-pill progress"><span class="cdot"></span>JNCIA-DC — in progress</span>
+    </div>
+  </div>
+</section>
+
+<section class="fieldlog sec-pad" id="fieldlog">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">Field Log</span>
+      <h2>Where the work gets real.</h2>
+    </div>
+    <div class="fl-role">
+      <h3>Network &amp; Support Engineer</h3>
+      <span class="co">Treten Networks</span>
+    </div>
+    <p class="fl-desc">On-site work across critical Lagos infrastructure — clean handoffs, visible alerts, and calm hands when a link drops.</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="site">Rack Centre</div><div class="note">Critical-environment site work</div></div>
+      <div class="tl-item"><div class="site">MainOne MDX</div><div class="note">Critical-environment site work</div></div>
+      <div class="tl-item"><div class="site">Digital Realty DC Lagos</div><div class="note">Critical-environment site work</div></div>
+      <div class="tl-item"><div class="site">WACS Cable Landing Station</div><div class="note">Critical-environment site work</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-pad" id="services">
+  <div class="wrap">
+    <div class="svc-head reveal">
+      <div class="sec-head" style="margin-bottom:0;">
+        <span class="sec-eyebrow">Services</span>
+        <h2>Hire the engineer, not a department.</h2>
+        <p>No bloated retainers. Tell me what's broken or what you're building — I'll scope a clean next step.</p>
+      </div>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="n">01</div>
+        <h4>Business Domain &amp; Email Setup</h4>
+        <p>Domain registration, Google Workspace or Private Email configuration, and email signatures — live and working, no loose ends.</p>
+        <a href="#contact" class="svc-link">Request a quote →</a>
+      </div>
+      <div class="svc-card">
+        <div class="n">02</div>
+        <h4>IT Consulting &amp; Troubleshooting</h4>
+        <p>Hardware and software diagnostics, procurement guidance, and system setup — for people without a full-time IT department.</p>
+        <a href="#contact" class="svc-link">Request a quote →</a>
+      </div>
+      <div class="svc-card">
+        <div class="n">03</div>
+        <h4>E-commerce Storefront Setup</h4>
+        <p>Shopify, Bumpa, or Selar — store setup, product listings, and the software licensing behind it.</p>
+        <a href="#contact" class="svc-link">Request a quote →</a>
+      </div>
+      <div class="svc-card">
+        <div class="n">04</div>
+        <h4>PC Building &amp; Hardware Sourcing</h4>
+        <p>Custom builds and online procurement — the right parts, sourced and assembled properly.</p>
+        <a href="#contact" class="svc-link">Request a quote →</a>
+      </div>
+      <div class="svc-card">
+        <div class="n">05</div>
+        <h4>Web &amp; Domain Management</h4>
+        <p>Ongoing site and domain maintenance for individuals and small businesses who'd rather not think about it.</p>
+        <a href="#contact" class="svc-link">Request a quote →</a>
+      </div>
+      <div class="svc-card">
+        <div class="n">06</div>
+        <h4>Network Health Check</h4>
+        <p>A practical review of your network, its risks, and the handful of changes that matter most.</p>
+        <a href="#contact" class="svc-link">Request a quote →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-pad" id="work" style="background:var(--bg-panel-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow">Selected Work</span>
+      <h2>Proof of practice.</h2>
+    </div>
+    <div class="work-grid">
+      <div class="work-card">
+        <div class="tag">Python · NLP</div>
+        <h4>Sentiment analysis for real-world language</h4>
+        <p>A Python NLP project using NLTK, spaCy, and TextBlob to classify text into meaningful sentiment signals — from preprocessing through interpretation.</p>
+      </div>
+      <div class="work-card">
+        <div class="tag">Network Design · Academic</div>
+        <h4>Final-year LAN management project</h4>
+        <p>A hands-on LAN management build focused on structure, visibility, and keeping a local network genuinely useful for the people depending on it.</p>
+      </div>
+      <div class="work-card open">
+        <div class="tag">Next / Open</div>
+        <h4>Your project could live here.</h4>
+        <p>Client wins are next — as they land, they get documented here as real case studies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact sec-pad" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <span class="sec-eyebrow">Open Channel</span>
+        <h2>Let's make it work.</h2>
+        <p class="contact-desc">Hiring for a hands-on engineer, need an IT problem scoped, or want a quote on a service above? The channel's open.</p>
+        <div class="reach">
+          <span>EDIT-ME: your@email.com <span class="edit-flag">— add real address</span></span>
+          <span>EDIT-ME: +234 000 000 0000 · WhatsApp <span class="edit-flag">— add real number</span></span>
+          <span>EDIT-ME: linkedin.com/in/yourhandle <span class="edit-flag">— add real profile</span></span>
+        </div>
+        <div class="note-box">
+          <div class="t">Before this goes live</div>
+          <p>Every contact detail above is a placeholder. Swap in your real email, WhatsApp number, and LinkedIn before sharing this link — right now a visitor who wants to reach you hits a dead end. Attach an actual CV file (PDF, not .txt) to the download button too.</p>
+        </div>
+      </div>
+
+      <div class="form-panel">
+        <div class="field">
+          <label>I'm looking to…</label>
+          <select id="intent">
+            <option>Hire for a role</option>
+            <option>Request a service quote</option>
+            <option>Just say hi</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Your name</label><input type="text" placeholder="Ada, or a team name"></div>
+          <div class="field"><label>Your email</label><input type="email" placeholder="you@company.com"></div>
+        </div>
+        <div class="field"><label>The situation</label><textarea placeholder="What needs attention?"></textarea></div>
+        <a href="#" class="btn btn-primary form-submit">Prepare message →</a>
+        <div class="form-note">Static page — submitting prepares a mailto draft once a real email is added above.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-wrap">
+    <div class="brand"><span class="dot"></span>KAMSI.TECH</div>
+    <div class="foot-meta">© 2026 Kamsi · Sage · built for reliable work</div>
+    <a href="#" class="back-top">Back to top</a>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const reveals = document.querySelectorAll('.reveal, .sec-head, .svc-head');
+  reveals.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // intent-aware form copy
+  const intent = document.getElementById('intent');
+  const submitBtn = document.querySelector('.form-submit');
+  const labels = {
+    "Hire for a role": "Prepare message →",
+    "Request a service quote": "Prepare quote request →",
+    "Just say hi": "Prepare message →"
+  };
+  intent.addEventListener('change', ()=>{ submitBtn.textContent = labels[intent.value]; });
+</script>
+</body>
+</html>
