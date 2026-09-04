@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ventures — Kamsi Tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1420; --bg-panel: #101C2C; --bg-panel-2: #0D1826; --line: #223245;
+    --text: #E9EFF6; --muted: #8FA0B6; --muted-dim: #5D6E82;
+    --cyan: #4FD1C5; --amber: #F2A65A; --green: #5CD68A; --red: #E96B6B;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.02em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--cyan); color:#04201d;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  header{position:sticky; top:0; z-index:100; background:rgba(11,20,32,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:700; font-size:1.05rem;}
+  .brand .dot{width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green);}
+  .back{font-family:'IBM Plex Mono'; font-size:0.82rem; color:var(--muted); display:flex; align-items:center; gap:8px; transition:color .2s;}
+  .back:hover{color:var(--cyan);}
+
+  .hero{padding:80px 0 50px;}
+  .eyebrow{display:inline-flex; align-items:center; gap:10px; font-family:'IBM Plex Mono'; font-size:0.78rem; color:var(--amber); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:24px;}
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--amber);}
+  .hero h1{font-size:clamp(2.2rem,5.5vw,3.6rem); line-height:1.08; max-width:760px;}
+  .hero h1 .accent{color:var(--cyan);}
+  .hero p{margin-top:22px; max-width:600px; color:var(--muted); font-size:1.05rem;}
+
+  .sec-pad{padding:70px 0;}
+  .sec-head{margin-bottom:44px; max-width:640px;}
+  .sec-eyebrow{font-family:'IBM Plex Mono'; font-size:0.78rem; color:var(--cyan); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; display:block;}
+  .sec-head h2{font-size:clamp(1.7rem,3.5vw,2.3rem);}
+  .sec-head p{color:var(--muted); margin-top:14px; font-size:0.98rem;}
+
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .grid.two{grid-template-columns:repeat(2,1fr);}
+  @media(max-width:900px){ .grid, .grid.two{grid-template-columns:1fr;} }
+
+  .card{border:1px solid var(--line); border-radius:var(--radius); padding:26px; background:var(--bg-panel); transition:border-color .2s, transform .2s;}
+  .card:hover{border-color:var(--amber); transform:translateY(-3px);}
+  .card .top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; gap:10px;}
+  .card h4{font-size:1.05rem; line-height:1.3;}
+  .status{font-family:'IBM Plex Mono'; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.04em; padding:4px 10px; border-radius:20px; white-space:nowrap; border:1px solid;}
+  .status.active{color:var(--green); border-color:rgba(92,214,138,0.4); background:rgba(92,214,138,0.06);}
+  .status.planning{color:var(--amber); border-color:rgba(242,166,90,0.4); background:rgba(242,166,90,0.06);}
+  .status.concept{color:var(--muted); border-color:var(--line);}
+  .card p{color:var(--muted); font-size:0.9rem;}
+
+  .concept-note{
+    margin-top:36px; border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px;
+    background:var(--bg-panel-2); color:var(--muted); font-size:0.88rem;
+  }
+  .concept-note strong{color:var(--text);}
+
+  footer{padding:34px 0; border-top:1px solid var(--line); margin-top:20px;}
+  .foot-wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;}
+  .foot-meta{color:var(--muted-dim); font-family:'IBM Plex Mono'; font-size:0.78rem;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><span class="dot"></span>KAMSI.TECH</div>
+    <a href="index.html" class="back">← Back to portfolio</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Ventures &amp; ideas</div>
+    <h1>Some of this is already earning.<br>Some of it is still <span class="accent">on the whiteboard.</span></h1>
+    <p>A running log of the businesses I've built, I'm building, and the bigger ones I'm still working toward. Kept honest — nothing here is dressed up as further along than it is.</p>
+  </div>
+</section>
+
+<section class="sec-pad" id="active">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">In Motion</span>
+      <h2>Live or actively being built.</h2>
+      <p>Ventures with a real first client, a real deliverable, or real work already happening.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="top"><h4>Domain &amp; Business Email Setup</h4><span class="status active">Active — first client</span></div>
+        <p>Buying and renewing domains, setting up Google Workspace or Namecheap Private Email, optional signature design. Already has a first client on board.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Freelance IT &amp; Cybersecurity Services</h4><span class="status planning">Planning</span></div>
+        <p>Extending the network/support skillset into paid consulting and troubleshooting work outside the day job.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Content — YouTube</h4><span class="status planning">Planning</span></div>
+        <p>Gaming and entertainment channel, on hold pending a wireless microphone.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Content — TikTok</h4><span class="status planning">Planning</span></div>
+        <p>Building out the SageTheProdigal handle as a content presence.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Beaded Jewelry Brand</h4><span class="status planning">Planning</span></div>
+        <p>Palette locked in: baby blue, honey brown, black, and yellow.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Prodigal Designs</h4><span class="status planning">Planning</span></div>
+        <p>A clothing line tied to the SageTheProdigal identity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-pad" id="concepts" style="background:var(--bg-panel-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">On the Drawing Board</span>
+      <h2>Larger business concepts.</h2>
+      <p>Bigger-capital ideas — some with concept documents already written, none funded or launched yet.</p>
+    </div>
+    <div class="grid two">
+      <div class="card">
+        <div class="top"><h4>Meka Tech</h4><span class="status concept">Concept — documented</span></div>
+        <p>Retail technology and managed IT services brand for SMBs — PC building, gadget sales, and ongoing IT support. Has a formal concept document and navy/electric-blue marketing flyer.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Meka Performance</h4><span class="status concept">Concept</span></div>
+        <p>Custom auto tuning and ECU remapping workshop.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Clean Energy / Solar Microgrid</h4><span class="status concept">Concept</span></div>
+        <p>Power-as-a-service model built around solar microgrids.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>eSports, Gaming &amp; Wagering Platform</h4><span class="status concept">Concept</span></div>
+        <p>A platform spanning competitive gaming and wagering.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Sim Racing Arcade &amp; Training Center</h4><span class="status concept">Concept</span></div>
+        <p>A venue built around 10+ professional racing simulator pods.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Prefabricated Modular Housing</h4><span class="status concept">Concept</span></div>
+        <p>A rental-and-sales model built on prefab modular units.</p>
+      </div>
+      <div class="card">
+        <div class="top"><h4>Mobile EV Salon</h4><span class="status concept">Concept</span></div>
+        <p>A luxury barber service on an electric bus, with app-based routing.</p>
+      </div>
+    </div>
+
+    <div class="concept-note">
+      <strong>Note:</strong> this venture concept is a different thing from the <strong>Kamsi Tech</strong> portfolio site you're looking at — the naming is close on purpose (same person, same technical identity), but this page tracks the Meka Tech retail/IT-services business plan specifically, not your personal CV.
+    </div>
+  </div>
+</section>
+
+<section class="sec-pad" id="longterm">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Longer Horizon</span>
+      <h2>Beyond the businesses.</h2>
+    </div>
+    <div class="card" style="max-width:640px;">
+      <div class="top"><h4>Fully-funded master's scholarship</h4><span class="status planning">Goal</span></div>
+      <p>Cybersecurity or networking — a long-term academic goal running alongside the business ventures, not instead of them.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-wrap">
+    <div class="brand"><span class="dot"></span>KAMSI.TECH</div>
+    <div class="foot-meta">© 2026 Kamsi · Sage · ideas worth tracking</div>
+    <a href="index.html" class="back">← Back to portfolio</a>
+  </div>
+</footer>
+
+</body>
+</html>
